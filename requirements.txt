@@ -1,2 +1,2 @@
-heroku3==3.1.2
+-e git://github.com/s0enke/heroku3.py.git@3946fec9cec16a71bae224fc9865ffc5d7479306#egg=heroku3
 ansible==1.8.4

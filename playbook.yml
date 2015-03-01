@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: no
+
+  tasks:
+  - name: create app
+    heroku_app:
+      name: testing-testor-blubbire
+      state: present

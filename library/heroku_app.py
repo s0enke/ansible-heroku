@@ -13,20 +13,25 @@ def main():
         )
     )
 
+    changed = False
+
     heroku_conn = heroku3.from_key(os.environ.get('HEROKU_API_KEY'))
 
     app_name = module.params['name']
+    state    = module.params['state']
     
     try:
-        heroku_conn.app(module.params['name'])
+        app = heroku_conn.app(module.params['name'])
     except requests.exceptions.HTTPError:
-        heroku_conn.create_app(name=app_name)
-        pass
+        app = heroku_conn.create_app(name=app_name)
+        changed = True
 
-
+    if state == 'absent':
+        app.delete()
+        changed = True
 
     json_output = {}
-    json_output['changed'] = True
+    json_output['changed'] = changed
     print json.dumps(json_output)
     sys.exit(0)
 

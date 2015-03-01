@@ -2,9 +2,22 @@
 - hosts: localhost
   connection: local
   gather_facts: no
+  vars:
+    app_name: "some-app-name"
 
   tasks:
   - name: create app
     heroku_app:
-      name: testing-testor-blubbire
+      name: "{{ app_name }}"
       state: present
+    register: result
+
+  - name: assert that heroku app has been created
+    assert:
+      that:
+        - 'result.changed'
+
+  - name: remove app
+    heroku_app:
+      name: "{{ app_name }}"
+      state: absent
